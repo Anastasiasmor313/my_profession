@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профессии в кино и обои</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-blue: #1a2980;
+            --secondary-blue: #26d0ce;
+            --dark-blue: #0d1b3e;
+            --light-blue: #e3f2fd;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Навигация */
+        .navbar {
+            background-color: rgba(13, 27, 62, 0.95);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--secondary-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--secondary-blue);
+            color: var(--dark-blue);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Общие стили для страниц */
+        .page {
+            padding: 30px 0 50px;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        header {
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Стили для страницы с фильмами */
+        .professions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .profession-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profession-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .profession-header {
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profession-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .profession-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .movies-list {
+            padding: 20px;
+        }
+
+        .movie-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .movie-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .movie-poster {
+            width: 80px;
+            height: 110px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .movie-info {
+            flex: 1;
+        }
+
+        .movie-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--dark-blue);
+        }
+
+        .movie-year, .movie-genre {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 3px;
+        }
+
+        .movie-type {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        /* Стили для страницы с обоями */
+        .wallpapers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .wallpaper-category {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .wallpaper-category-header {
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .wallpaper-category-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .wallpaper-category-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .wallpapers-list {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .wallpaper-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            height: 250px;
+            position: relative;
+        }
+
+        .wallpaper-item:hover {
+            transform: scale(1.03);
+        }
+
+        .wallpaper-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .wallpaper-item:hover .wallpaper-img {
+            transform: scale(1.1);
+        }
+
+        .wallpaper-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 10px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .wallpaper-item:hover .wallpaper-info {
+            opacity: 1;
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary-blue);
+            color: var(--dark-blue);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wallpaper-item:hover .download-btn {
+            opacity: 1;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Футер */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: white;
+            opacity: 0.8;
+            background-color: rgba(13, 27, 62, 0.8);
+            margin-top: 40px;
+        }
+
+        /* Модальное окно для просмотра обоев */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: auto;
+            max-height: 80vh;
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .modal-info {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .professions-grid, .wallpapers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-blue);
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                gap: 15px;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                visibility: hidden;
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .movie-item {
+                flex-direction: column;
+            }
+            
+            .movie-poster {
+                width: 100%;
+                height: auto;
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .wallpapers-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .professions-grid, .wallpapers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .wallpapers-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .wallpaper-item {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <span>Профессии в кино</span>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-link active" data-page="movies">Фильмы по профессиям</a>
+                <a href="#" class="nav-link" data-page="wallpapers">Обои для телефона</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Страница с фильмами -->
+    <div class="page active" id="movies-page">
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-video"></i> Фильмы по профессиям</h1>
+                <p class="page-subtitle">Исследуйте 11 направлений профессий через фильмы, сериалы и мультфильмы. Каждая профессия представлена тремя кинопроизведениями, которые лучше всего раскрывают ее суть.</p>
+            </header>
+
+            <div class="professions-grid" id="professions-container">
+                <!-- Профессии будут загружены через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница с обоями -->
+    <div class="page" id="wallpapers-page">
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-mobile-alt"></i> Обои для телефона</h1>
+                <p class="page-subtitle">Коллекция обоев для телефона по 11 профессиям. Скачивайте понравившиеся обои для своего смартфона. Все изображения адаптированы под вертикальный формат.</p>
+            </header>
+
+            <div class="wallpapers-grid" id="wallpapers-container">
+                <!-- Обои будут загружены через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для просмотра обоев -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <img class="modal-img" id="modalImg" src="" alt="">
+            <div class="modal-info" id="modalInfo"></div>
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <p>Сайт создан для демонстрации профессий через кинематограф и обои для телефона</p>
+            <p>Создано СПО «Выше крыши»</p>
+            <p>Все данные носят ознакомительный характер &copy; 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        // Данные о профессиях и фильмах (обновленный список)
+        const professionsData = [
+            {
+                id: 1,
+                name: "Врач",
+                icon: "fas fa-user-md",
+                movies: [
+                    {
+                        title: "Три дня до весны",
+                        year: "2017",
+                        genre: " военный детектив",
+                        type: "Фильм",
+                        img: "img/fmed1.jpeg"
+                    },
+                    {
+                        title: "Скорая помощь",
+                        year: "2018",
+                        genre: "Мелодрама, триллер",
+                        type: "Сериал",
+                        img: "img/fmed2.jpg"
+                    },
+                    {
+                        title: "Заключение",
+                        year: "2022",
+                        genre: "Детектив",
+                        type: "Сериал",
+                        img: "img/fmed3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                name: "Спортсмен",
+                icon: "fas fa-running",
+                movies: [
+                    {
+                        title: "Движение вверх",
+                        year: "2017",
+                        genre: "Драма",
+                        type: "Фильм",
+                        img: "img/fsport1.jpeg"
+                    },
+                    {
+                        title: "Финал",
+                        year: "2025",
+                        genre: "Драма, спорт",
+                        type: "Фильм",
+                        img: "img/fsport2.jpg"
+                    },
+                    {
+                        title: "Легенда №17",
+                        year: "2013",
+                        genre: "Драма, спорт",
+                        type: "Фильм",
+                        img: "img/fsport3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                name: "Учитель",
+                icon: "fas fa-chalkboard-teacher",
+                movies: [
+                    {
+                        title: "Крутая перемена",
+                        year: "2023",
+                        genre: "Драма, комедия",
+                        type: "Сериал",
+                        img: "img/ftea1.jpg"
+                    },
+                    {
+                        title: "Артек. Большое путешествие",
+                        year: "2021",
+                        genre: "Комедия",
+                        type: "Фильм",
+                        img: "img/ftea2.jpg"
+                    },
+                    {
+                        title: "Уроки французского",
+                        year: "1978",
+                        genre: "Драма",
+                        type: "Фильм",
+                        img: "img/ftea3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                name: "Летчик",
+                icon: "fas fa-plane",
+                movies: [
+                    {
+                        title: "Экипаж",
+                        year: "2016",
+                        genre: "Драма, экшен",
+                        type: "Фильм",
+                        img: "img/flet1.jpg"
+                    },
+                    {
+                        title: "Небо",
+                        year: "2021",
+                        genre: "Драма, биография",
+                        type: "Фильм",
+                        img: "img/flet2.jpg"
+                    },
+                    {
+                        title: "Призрак",
+                        year: "2015",
+                        genre: "Комедия",
+                        type: "Фильм",
+                        img: "img/flet3.jpeg"
+                    }
+                ]
+            },
+            {
+                id: 5,
+                name: "Полицейский",
+                icon: "fas fa-helmet-safety",
+                movies: [
+                    {
+                        title: "Пёс",
+                        year: "с 2015",
+                        genre: "Детектив",
+                        type: "Сериал",
+                        img: "img/fpoli1.jpg"
+                    },
+                    {
+                        title: "Майор Гром: Чумной Доктор",
+                        year: "2021",
+                        genre: "Комедия",
+                        type: "Фильм",
+                        img: "img/fpoli2.jpg"
+                    },
+                    {
+                        title: "Зверополис",
+                        year: "2016",
+                        genre: "Комедия, приключения",
+                        type: "Мультфильм",
+                        img: "img/fpoli3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                name: "Пожарный",
+                icon: "fas fa-fire-extinguisher",
+                movies: [
+                    {
+                        title: "Огонь",
+                        year: "2020",
+                        genre: "Драма",
+                        type: "Фильм",
+                        img: "img/ffair1.jpg"
+                    },
+                    {
+                        title: "Тревожное воскресенье",
+                        year: "1983",
+                        genre: "Боевик",
+                        type: "Фильм",
+                        img: "img/ffair2.jpg"
+                    },
+                    {
+                        title: "Пять минут тишины",
+                        year: "2017",
+                        genre: "Приключения, детектив",
+                        type: "Сериал",
+                        img: "img/ffair3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 7,
+                name: "Ученый",
+                icon: "fas fa-flask",
+                movies: [
+                    {
+                        title: "Сквозь время",
+                        year: "2023",
+                        genre: "Фантастика, приключение",
+                        type: "Фильм",
+                        img: "img/fnay1.jpg"
+                    },
+                    {
+                        title: "Время первых",
+                        year: "2017",
+                        genre: "Приключения, триллер, биография",
+                        type: "Фильм",
+                        img: "img/fnay2.jpg"
+                    },
+                    {
+                        title: "Влюблённые в математику",
+                        year: "2025",
+                        genre: "Документальный",
+                        type: "Фильм",
+                        img: "img/fnay3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 8,
+                name: "Актер",
+                icon: "fas fa-theater-masks",
+                movies: [
+                    {
+                        title: "Раневская",
+                        year: "2023",
+                        genre: "Драма, биография",
+                        type: "Сериал",
+                        img: "img/fteatr1.jpg"
+                    },
+                    {
+                        title: "Одна дома: Великолепная пятёрка",
+                        year: "2024",
+                        genre: "Драма, комедия",
+                        type: "Фильм",
+                        img: "img/fteatr2.jpeg"
+                    },
+                    {
+                        title: "Папе маму заверни",
+                        year: "2024",
+                        genre: "Комедия, семейный",
+                        type: "Фильм",
+                        img: "img/fteatr3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 10,
+                name: "Певец",
+                icon: "fas fa-music",
+                movies: [
+                    {
+                        title: "Тайна Коко",
+                        year: "2017",
+                        genre: "Мультфильм, приключения",
+                        type: "Мультфильм",
+                        img: "img/fsing1.jpg"
+                    },
+                    {
+                        title: "Бременские музыканты",
+                        year: "2024",
+                        genre: "Приключения, фэнтези, комедия",
+                        type: "Фильм",
+                        img: "img/fsing2.jpg"
+                    },
+                    {
+                        title: "Петр Лещенко. Все, что было…",
+                        year: "2013",
+                        genre: "Биография, мелодрама",
+                        type: "Сериал",
+                        img: "img/fsing3.jpg"
+                    }
+                ]
+            },
+            {
+                id: 11,
+                name: "Программист",
+                icon: "fas fa-laptop-code",
+                movies: [
+                    {
+                        title: "Математическое неравенство",
+                        year: "2022",
+                        genre: "Документальный",
+                        type: "Фильм",
+                        img: "img/fcod1.jpg"
+                    },
+                    {
+                        title: "Стартап",
+                        year: "2014",
+                        genre: "Биография, драма",
+                        type: "Фильм",
+                        img: "img/fcod2.jpg"
+                    },
+                    {
+                        title: "Хоттабыч",
+                        year: "2006",
+                        genre: "Комедия",
+                        type: "Фильм",
+                        img: "img/fcod3.jpg"
+                    }
+                ]
+            }
+        ];
+
+        // Данные об обоях для телефона
+        const wallpapersData = [
+            {
+                id: 1,
+                name: "Врач",
+                icon: "fas fa-user-md",
+                wallpapers: [
+                    { id: 1, title: "Медицина будущего", url: "img/med1.png"},
+                    { id: 2, title: "Хирург за работой", url: "img/med2.jpg" },
+                    { id: 3, title: "Современная клиника", url: "img/med3.png" },
+                    { id: 4, title: "Медицинские инструменты", url: "img/med4.png" }
+                ]
+            },
+            {
+                id: 2,
+                name: "Спортсмен",
+                icon: "fas fa-running",
+                wallpapers: [
+                    { id: 1, title: "Бег на стадионе", url: "img/sport1.jpg" },
+                    { id: 2, title: "Баскетбол", url: "img/sport2.jpg" },
+                    { id: 3, title: "Хоккей", url: "img/sport3.jpg" },
+                    { id: 4, title: "Плавание", url: "img/sport4.jpg" }
+                ]
+            },
+            {
+                id: 3,
+                name: "Учитель",
+                icon: "fas fa-chalkboard-teacher",
+                wallpapers: [
+                    { id: 1, title: "Классная комната", url: "img/tea1.jpg" },
+                    { id: 2, title: "Урок в школе", url: "img/tea2.png" },
+                    { id: 3, title: "Учебники", url: "img/tea3.png" },
+                    { id: 4, title: "Школьная доска", url: "img/tea4.jpg" }
+                ]
+            },
+            {
+                id: 4,
+                name: "Летчик",
+                icon: "fas fa-plane",
+                wallpapers: [
+                    { id: 1, title: "Самолет в небе", url: "img/let1.jpg" },
+                    { id: 2, title: "Кабина пилота", url: "img/let2.jpg" },
+                    { id: 3, title: "Авиация", url: "img/let3.jpg" },
+                    { id: 4, title: "Закат в аэропорту", url: "img/let4.jpg" }
+                ]
+            },
+            {
+                id: 5,
+                name: "Полицейский",
+                icon: "fas fa-helmet-safety",
+                wallpapers: [
+                    { id: 1, title: "Патрульная машина", url: "img/poli.jpg" },
+                    { id: 2, title: "Служба порядка", url: "img/poli2.jpg" },
+                    { id: 3, title: "ДПС", url: "img/poli3.jpg" },
+                    { id: 4, title: "МВД", url: "img/poli4.jpg" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Пожарный",
+                icon: "fas fa-fire-extinguisher",
+                wallpapers: [
+                    { id: 1, title: "Пожарная машина", url: "img/fair1.jpg" },
+                    { id: 2, title: "Тушение пожара", url: "img/fair2.jpg" },
+                    { id: 3, title: "Пожарный в действии", url: "img/fair3.jpg" },
+                    { id: 4, title: "Пожарное оборудование", url: "img/fair4.jpg" }
+                ]
+            },
+            {
+                id: 7,
+                name: "Ученый",
+                icon: "fas fa-flask",
+                wallpapers: [
+                    { id: 1, title: "Научная лаборатория", url: "img/nay1.jpg" },
+                    { id: 2, title: "Химические эксперименты", url: "img/nay2.jpg" },
+                    { id: 3, title: "Микроскоп", url: "img/nay3.jpg" },
+                    { id: 4, title: "Научные формулы", url: "img/nay4.jpg" }
+                ]
+            },
+            {
+                id: 8,
+                name: "Актер",
+                icon: "fas fa-theater-masks",
+                wallpapers: [
+                    { id: 1, title: "Театральная сцена", url: "img/teatr1.png" },
+                    { id: 2, title: "Киноиндустрия", url: "img/teatr2.png" },
+                    { id: 3, title: "Театральные маски", url: "img/teatr3.png" },
+                    { id: 4, title: "Костюмы и грим", url: "img/teatr4.jpg" }
+                ]
+            },
+            {
+                id: 9,
+                name: "Художник",
+                icon: "fas fa-palette",
+                wallpapers: [
+                    { id: 1, title: "Художественная студия", url: "img/paint1.jpg" },
+                    { id: 2, title: "Краски и кисти", url: "img/paint2.jpg" },
+                    { id: 3, title: "Искусство", url: "img/paint3.jpg" },
+                    { id: 4, title: "Эстетика кистей", url: "img/paint4.jpg" }
+                ]
+            },
+            {
+                id: 10,
+                name: "Певец",
+                icon: "fas fa-music",
+                wallpapers: [
+                    { id: 1, title: "Концерт", url: "img/sing1.jpg" },
+                    { id: 2, title: "Музыкальная студия", url: "img/sing2.jpg" },
+                    { id: 3, title: "Микрофон", url: "img/sing3.jpg" },
+                    { id: 4, title: "Инструменты", url: "img/sing4.jpg" }
+                ]
+            },
+            {
+                id: 11,
+                name: "Программист",
+                icon: "fas fa-laptop-code",
+                wallpapers: [
+                    { id: 1, title: "Рабочее место программиста", url: "img/cod1.jpg" },
+                    { id: 2, title: "Код на экране", url: "img/cod2.jpg" },
+                    { id: 3, title: "Технологии", url: "img/cod3.jpg" },
+                    { id: 4, title: "Разработка ПО", url: "img/cod4.jpg" }
+                ]
+            }
+        ];
+
+        // DOM элементы
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pages = document.querySelectorAll('.page');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinksContainer = document.getElementById('navLinks');
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalInfo = document.getElementById('modalInfo');
+        const modalClose = document.getElementById('modalClose');
+
+        // Функция для создания карточек профессий
+        function createProfessionCards() {
+            const container = document.getElementById('professions-container');
+            
+            let html = '';
+            
+            professionsData.forEach(profession => {
+                html += `
+                    <div class="profession-card">
+                        <div class="profession-header">
+                            <div class="profession-icon">
+                                <i class="${profession.icon}"></i>
+                            </div>
+                            <h2>${profession.name}</h2>
+                        </div>
+                        <div class="movies-list">
+                `;
+                
+                profession.movies.forEach(movie => {
+                    html += `
+                        <div class="movie-item">
+                            <img src="${movie.img}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                            <div class="movie-info">
+                                <div class="movie-title">${movie.title}</div>
+                                <div class="movie-year">${movie.year}</div>
+                                <div class="movie-genre">${movie.genre}</div>
+                                <div class="movie-type">${movie.type}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Функция для создания галереи обоев
+        function createWallpapersGallery() {
+            const container = document.getElementById('wallpapers-container');
+            
+            let html = '';
+            
+            wallpapersData.forEach(category => {
+                html += `
+                    <div class="wallpaper-category">
+                        <div class="wallpaper-category-header">
+                            <div class="wallpaper-category-icon">
+                                <i class="${category.icon}"></i>
+                            </div>
+                            <h2>${category.name}</h2>
+                        </div>
+                        <div class="wallpapers-list">
+                `;
+                
+                category.wallpapers.forEach(wallpaper => {
+                    html += `
+                        <div class="wallpaper-item" data-category="${category.name}" data-title="${wallpaper.title}">
+                            <img src="${wallpaper.url}" alt="${wallpaper.title}" class="wallpaper-img" onerror="this.src='https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'">
+                            <div class="wallpaper-info">${wallpaper.title}</div>
+                            <button class="download-btn" onclick="downloadWallpaper('${wallpaper.url}', '${category.name}_${wallpaper.title}')">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Добавляем обработчики событий для открытия модального окна
+            document.querySelectorAll('.wallpaper-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('download-btn')) {
+                        const imgSrc = this.querySelector('.wallpaper-img').src;
+                        const category = this.getAttribute('data-category');
+                        const title = this.getAttribute('data-title');
+                        
+                        modalImg.src = imgSrc;
+                        modalInfo.textContent = `${category}: ${title}`;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+                // Добавляем обработчик для touchstart
+                item.addEventListener('touchstart', function(e) {
+                    if (!e.target.classList.contains('download-btn')) {
+                        const imgSrc = this.querySelector('.wallpaper-img').src;
+                        const category = this.getAttribute('data-category');
+                        const title = this.getAttribute('data-title');
+                        
+                        modalImg.src = imgSrc;
+                        modalInfo.textContent = `${category}: ${title}`;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+                 // Добавляем обработчик для touchmove
+                item.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                });
+            });
+        }
+  
+        // Функция для скачивания обоев
+        function downloadWallpaper(url, filename) {
+            // В реальном проекте здесь был бы запрос к серверу для скачивания
+            // Для демонстрации просто откроем изображение в новой вкладке
+            window.open(url, '_blank');
+            
+            // Показываем уведомление
+            showNotification(`Обои "${filename}" скоро будут скачаны`);
+        }
+
+        // Функция для показа уведомления
+        function showNotification(message) {
+            // Создаем элемент уведомления
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Удаляем уведомление через 3 секунды
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+            
+            // Добавляем стили для анимации
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Функция для переключения страниц
+        function switchPage(pageId) {
+            // Скрываем все страницы
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Показываем выбранную страницу
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // Обновляем активную ссылку в навигации
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Закрываем мобильное меню
+            navLinksContainer.classList.remove('active');
+        }
+        
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Создаем карточки профессий и галерею обоев
+            createProfessionCards();
+            createWallpapersGallery();
+            
+            // Добавляем обработчики событий для навигации
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.getAttribute('data-page');
+                    switchPage(pageId);
+                });
+            });
+            
+            // Обработчик для мобильного меню
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinksContainer.classList.toggle('active');
+            });
+            
+            // Закрытие модального окна
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Закрытие модального окна при клике вне изображения
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Закрытие модального окна при нажатии Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+        
+    </script>
+</body>
+</html>
